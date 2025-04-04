@@ -38,7 +38,7 @@ function Home(): React.JSX.Element {
     <View style={backgroundStyle}>
       <Toast/>
       <NavigationContainer>
-        {!user ? <BottomTab /> : <AuthNavigator />}
+        {user ? <BottomTab /> : <AuthNavigator />}
       </NavigationContainer>
     </View>
   );
