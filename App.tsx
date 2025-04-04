@@ -3,14 +3,18 @@ import React from 'react'
 import WalletProvider from './src/provider/WalletProvider'
 import Home from './src'
 import { UserProvider } from './src/context/useUserContext'
+import { AssetProvider } from './src/context/useAssetContext'
 
 const App = () => {
   return (
-    <View>
+    <View style={{flex:1}}>
       <WalletProvider>
         <UserProvider>
+          <AssetProvider>
         <Home/>
+        </AssetProvider>
         </UserProvider>
+        
       </WalletProvider>
     </View>
   )

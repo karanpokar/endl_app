@@ -15,28 +15,30 @@ import { NavigationContainer } from "@react-navigation/native";
 import BottomTab from "./screens/Dashboard";
 import { useUser } from "./context/useUserContext";
 import { AuthNavigator } from "./navigators";
+import Toast from "react-native-toast-message";
 
 type SectionProps = PropsWithChildren<{
   title: string;
 }>;
 
 function Home(): React.JSX.Element {
-  const { height, width } = Dimensions.get("window");
+  const { height, width } = Dimensions.get("screen");
   const { user }: any = useUser();
   const { open } = useAppKit();
   const isDarkMode = useColorScheme() === "dark";
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-    height: height,
-    paddingHorizontal: 12,
-    paddingVertical: 12,
+   height:"100%"
+    
   };
 
   return (
+    /*@ts-ignore*/
     <View style={backgroundStyle}>
+      <Toast/>
       <NavigationContainer>
-        {user ? <BottomTab /> : <AuthNavigator />}
+        {!user ? <BottomTab /> : <AuthNavigator />}
       </NavigationContainer>
     </View>
   );

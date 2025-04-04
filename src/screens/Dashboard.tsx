@@ -10,10 +10,9 @@ function BottomTab() {
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
-        tabBarShowLabel: false,
       }}
     >
-      <Tab.Screen name="Transaction" component={AppNavigator} />
+      <Tab.Screen name="AppNavigator" component={AppNavigator} />
       <Tab.Screen name="Profile" component={Profile} />
     </Tab.Navigator>
   );

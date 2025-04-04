@@ -17,9 +17,10 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     });
     if (response) {
       setAuthData(response?.data);
-      console.log('Auth',response?.data)
+      //console.log('Auth',response?.data)
       const auth = response?.data?.data?.token;
       const user = await fetchUserData(auth);
+      console.log('User',user)
       setUser(user);
       await AsyncStorage.setItem("auth", auth);
     }
