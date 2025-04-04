@@ -1,6 +1,7 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Transaction from "./Transaction";
 import Profile from "./Profile";
+import { AppNavigator } from "../navigators";
 
 const Tab = createBottomTabNavigator();
 
@@ -12,7 +13,7 @@ function BottomTab() {
         tabBarShowLabel: false,
       }}
     >
-      <Tab.Screen name="Transaction" component={Transaction} />
+      <Tab.Screen name="Transaction" component={AppNavigator} />
       <Tab.Screen name="Profile" component={Profile} />
     </Tab.Navigator>
   );
