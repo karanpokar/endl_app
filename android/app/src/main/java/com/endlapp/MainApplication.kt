@@ -1,4 +1,4 @@
-package com.helloworld
+package com.endlapp
 
 import android.app.Application
 import com.facebook.react.PackageList
