@@ -1,9 +1,11 @@
-# Tell GitHub to ignore native build files when detecting language
+# Exclude native CMake files from language stats
 *.cmake linguist-detectable=false
 CMakeLists.txt linguist-detectable=false
 
-# Force linguist to detect TypeScript and JavaScript correctly
+# Force TypeScript as the language for .ts and .tsx files
 *.ts linguist-language=TypeScript
 *.tsx linguist-language=TypeScript
-*.js linguist-language=JavaScript
-*.jsx linguist-language=JavaScript
+
+# Optional: down-prioritize JavaScript if you want TS to dominate
+*.js linguist-detectable=false
+*.jsx linguist-detectable=false
