@@ -1,4 +1,5 @@
 import ReactNativeBiometrics, { BiometryTypes } from "react-native-biometrics";
+import { creds } from "./cred";
 
 export const promptForAuth = async () => {
   try {
@@ -44,7 +45,7 @@ export const trimAddress = (address: string, startLen = 6, endLen = 4): string =
 };
 
 
-const ALCHEMY_URL = 'https://polygon-amoy.g.alchemy.com/v2/Q19FeX_OTRO0E9xhDAr5rr5vMwCgakyt'; // replace with your real API key
+const ALCHEMY_URL = `https://polygon-amoy.g.alchemy.com/v2/${creds?.ALCHEMY_ID}`; // replace with your real API key
 const COMMON_PARAMS = {
   fromBlock: '0x0',
   toBlock: 'latest',

@@ -1,0 +1,9 @@
+import { ALCHEMY_ID, PROJECT_ID, BASE_URL,SECRET_KEY } from "@env";
+
+
+export const creds = {
+  ALCHEMY_ID: ALCHEMY_ID,
+  PROJECT_ID: PROJECT_ID,
+  BASE_URL: BASE_URL,
+  SECRET_KEY:SECRET_KEY
+};

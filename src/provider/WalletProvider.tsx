@@ -6,8 +6,9 @@ import {
   defaultConfig,
   AppKit,
 } from "@reown/appkit-ethers5-react-native";
+import { creds } from "../cred";
 
-const projectId = "2a7099b580ed18eee8cc6a30566cdecd";
+const projectId = creds?.PROJECT_ID;
 
 const metadata = {
   name: "Endl App",

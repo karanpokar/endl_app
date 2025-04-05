@@ -1,7 +1,8 @@
 import axios from "axios";
 import CryptoJS from "crypto-js";
+import { creds } from "../cred";
 
-const SECRET_KEY = "Your16CharSecret";
+const SECRET_KEY = creds?.SECRET_KEY;
 
 const skipEncryptionEndpoints = [
   "/api/v1/user/profilePicture",
@@ -69,7 +70,7 @@ const decryptData = (encryptedPayload, secretKey) => {
 };
 
 const apiService = axios.create({
-  baseURL: "https://qa-api.endl.xyz/api/v1/",
+  baseURL: creds?.BASE_URL,
   headers: { "Content-Type": "application/json" },
 });
 
