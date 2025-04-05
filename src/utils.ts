@@ -31,3 +31,15 @@ export const checkForBiometricAvailability = async () => {
     };
   }
 };
+
+
+export function validateEmail(email:string) {
+  var re = /\S+@\S+\.\S+/;
+  return re.test(email);
+}
+
+export const trimAddress = (address: string, startLen = 6, endLen = 4): string => {
+  if (!address) return '';
+  return `${address.slice(0, startLen)}...${address.slice(-endLen)}`;
+};
+

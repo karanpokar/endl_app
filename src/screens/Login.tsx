@@ -8,14 +8,17 @@ import {
   Platform,
   TouchableWithoutFeedback,
   Keyboard,
+  ActivityIndicator,
+  Alert,
 } from "react-native";
 import React, { useState } from "react";
 import { useUser } from "../context/useUserContext";
 import Button from "../components/theme/Button";
 import Input from "../components/theme/Input";
+import { validateEmail } from "../utils";
 
 const Login = () => {
-  const { userLogin }: any = useUser();
+  const { userLogin, loading }: any = useUser();
   const { width, height } = Dimensions.get("window");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
@@ -79,17 +82,36 @@ const Login = () => {
                 secureTextEntry={true}
               />
             </View>
-            <Button
-              text={"Login"}
-              onClick={() => {
-                userLogin(email, password);
-              }}
-              style={{
-                marginTop: 20,
-                marginBottom: 40,
-                backgroundColor: "#b4f9f4",
-              }}
-            />
+
+            <>
+              {loading ? (
+                <View
+                  style={{
+                    width: "100%",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <ActivityIndicator size={"large"} color={"#b4f9f4"} />
+                </View>
+              ) : (
+                <Button
+                  text={"Login"}
+                  onClick={() => {
+                    if (validateEmail(email) && password) {
+                      userLogin(email, password);
+                    } else {
+                      Alert.alert("Enter Valid email and password");
+                    }
+                  }}
+                  style={{
+                    marginTop: 20,
+                    marginBottom: 40,
+                    backgroundColor: "#b4f9f4",
+                  }}
+                />
+              )}
+            </>
           </View>
         </ScrollView>
       </TouchableWithoutFeedback>

@@ -45,7 +45,7 @@ const polygon = {
   rpcUrl: "https://polygon-rpc.com",
 };
 
-const chains = [mainnet, polygon, polygonamoy];
+const chains = [mainnet, polygon,polygonamoy];
 
 createAppKit({
   projectId,

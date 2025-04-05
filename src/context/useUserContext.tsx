@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import apiService from "../network/api";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Alert } from "react-native";
 
 /*@ts-ignore*/
 const UserContext = createContext();
@@ -9,21 +10,31 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const [token, setToken] = useState(null);
   const [user, setUser] = useState(null);
   const [authData, setAuthData] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const userLogin = async (email: string, password: string) => {
-    const response = await apiService.post("user/login", {
-      email: email,
-      password: password,
-    });
+    setLoading(true);
+    const response = await apiService
+      .post("user/login", {
+        email: email,
+        password: password,
+      })
+      .catch((err) => {
+        console.log(err);
+        Alert.alert("Something went wrong");
+        setLoading(false);
+      });
     if (response) {
       setAuthData(response?.data);
-      //console.log('Auth',response?.data)
       const auth = response?.data?.data?.token;
-      console.log(auth)
-      setToken(auth)
+      setToken(auth);
       const user = await fetchUserData(auth);
-      setUser(user?.data)
+      setLoading(false);
+      setUser(user?.data);
       await AsyncStorage.setItem("auth", auth);
+    } else {
+      Alert.alert("Something went wrong");
+      setLoading(false);
     }
   };
 
@@ -32,18 +43,23 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     if (localToken) {
       setToken(localToken as any);
       await fetchUserData(localToken);
-    }
-    else{
-      setUser(null)
+    } else {
+      setUser(null);
     }
   };
 
   const fetchUserData = async (token: string) => {
-    const response = await apiService.get("user/profile", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await apiService
+      .get("user/profile", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .catch((err) => {
+        console.log(err);
+        Alert.alert("Something went wrong");
+        setLoading(false);
+      });
     if (response?.data) {
       setUser(response?.data?.data);
       return response?.data;
@@ -53,13 +69,19 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const logoutUser = async () => {
-    console.log(token)
-    const response = await apiService.post("user/logout", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    console.log('Re',response?.data)
+    console.log(token);
+    const response = await apiService
+      .post("user/logout", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .catch((err) => {
+        console.log(err);
+        Alert.alert("Something went wrong");
+        setLoading(false);
+      });
+    console.log("Re", response?.data);
     if (response?.data) {
       setUser(null);
       setToken(null);
@@ -81,6 +103,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         fetchUserData,
         user,
         logoutUser,
+        loading,
       }}
     >
       {children}

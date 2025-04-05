@@ -1,19 +1,16 @@
-import {
-  View,
-  Text,
-  Alert,
-  ActivityIndicator,
-} from "react-native";
-import React, { useState } from "react";
+import { View, Text, Alert, ActivityIndicator } from "react-native";
+import React, { useEffect, useState } from "react";
 import {
   AppKitButton,
   useAppKitAccount,
   useAppKitProvider,
+  useAppKitState,
 } from "@reown/appkit-ethers5-react-native";
 import Input from "../components/theme/Input";
 import Button from "../components/theme/Button";
 import { ethers } from "ethers";
 import { promptForAuth } from "../utils";
+import { useNavigation } from "@react-navigation/native";
 
 const Transaction = () => {
   const [amount, setAmount] = useState(0);
@@ -21,7 +18,11 @@ const Transaction = () => {
   const [loading, setLoading] = useState(false);
   const { walletProvider }: any = useAppKitProvider();
   const { address }: any = useAppKitAccount();
-  console.log(address)
+  const { selectedNetworkId } = useAppKitState();
+  const [gasAmount, setGasAmount] = useState(0);
+  const navigation=useNavigation();
+
+  //console.log(address)
 
   const handleSendButton = async () => {
     if (amount <= 0) {
@@ -39,12 +40,13 @@ const Transaction = () => {
       const balance = await ethersProvider.getBalance(address);
       const gasValue = parseInt(gas?._hex, 16) / 10 ** 18;
       const balanceInEth = parseInt(balance?._hex, 16) / 10 ** 18;
-      if (gasValue * 21000 > balanceInEth) {
+      if (gasValue * 21000 + amount > balanceInEth) {
         setLoading(false);
         //showFailure('Insufficient Funds')
-        Alert.alert("Insufficient Funds for Gas");
+        Alert.alert("Insufficient Funds or Gas");
         return;
       }
+
       const txData = {
         to: "0x3847F16cC7CCDFe47fCf81B39886F3cdf18751cA",
         value: ethers.utils.parseEther(amount?.toString()),
@@ -57,6 +59,14 @@ const Transaction = () => {
           if (res.status == 1) {
             //successToast('Transaction Submitted')
             Alert.alert("Transaction Submitted");
+            navigation.navigate('Success',{
+              hash:tx?.hash,
+              to:'0x3847F16cC7CCDFe47fCf81B39886F3cdf18751cA',
+              amount:amount,
+              time:new Date(),
+              status:'Success',
+              gas:gasAmount
+            })
             setLoading(false);
           } else {
             setLoading(false);
@@ -69,6 +79,17 @@ const Transaction = () => {
       Alert.alert("Transaction Error");
     }
   };
+
+  const calculateGasFees = async () => {
+    const ethersProvider = new ethers.providers.Web3Provider(walletProvider);
+    const gas = await ethersProvider.getGasPrice();
+    const gasValue = parseInt(gas?._hex, 16) / 10 ** 18;
+    setGasAmount(gasValue * 21000);
+  };
+
+  useEffect(() => {
+    calculateGasFees();
+  }, []);
 
   return (
     <View
@@ -111,6 +132,21 @@ const Transaction = () => {
         style={{ width: "100%" }}
         placeHolder={"Enter Amount to deposit"}
       />
+      <View
+        style={{
+          width: "100%",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          marginVertical: 12,
+        }}
+      >
+        <Text style={{ color: "black", fontSize: 16, fontWeight: "700" }}>
+          Gas Price:{" "}
+        </Text>
+        <Text style={{ color: "black", fontSize: 16, fontWeight: "700" }}>
+          {gasAmount} POL
+        </Text>
+      </View>
       {loading ? (
         <View
           style={{
@@ -127,6 +163,7 @@ const Transaction = () => {
           text={"Deposit"}
           onClick={() => {
             handleSendButton();
+            
           }}
           style={{
             width: "100%",

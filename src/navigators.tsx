@@ -3,6 +3,7 @@ import BottomTab from './screens/Dashboard';
 import Login from './screens/Login';
 import HomeScreen from './screens/HomeScreen';
 import Transaction from './screens/Transaction';
+import Success from './screens/Success';
 
 const Stack = createStackNavigator();
 
@@ -27,6 +28,7 @@ const Stack = createStackNavigator();
       initialRouteName='HomeScreen'>
         <Stack.Screen name="HomeScreen" component={HomeScreen} />
         <Stack.Screen name="Transaction" component={Transaction} />
+        <Stack.Screen name="Success" component={Success} />
       </Stack.Navigator>
     );
   }
