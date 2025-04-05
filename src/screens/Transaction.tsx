@@ -20,7 +20,7 @@ const Transaction = () => {
   const { address }: any = useAppKitAccount();
   const { selectedNetworkId } = useAppKitState();
   const [gasAmount, setGasAmount] = useState(0);
-  const navigation=useNavigation();
+  const navigation = useNavigation();
 
   //console.log(address)
 
@@ -59,14 +59,15 @@ const Transaction = () => {
           if (res.status == 1) {
             //successToast('Transaction Submitted')
             Alert.alert("Transaction Submitted");
-            navigation.navigate('Success',{
-              hash:tx?.hash,
-              to:'0x3847F16cC7CCDFe47fCf81B39886F3cdf18751cA',
-              amount:amount,
-              time:new Date(),
-              status:'Success',
-              gas:gasAmount
-            })
+            /*@ts-ignore*/
+            navigation.navigate("Success", {
+              hash: tx?.hash,
+              to: "0x3847F16cC7CCDFe47fCf81B39886F3cdf18751cA",
+              amount: amount,
+              time: new Date(),
+              status: "Success",
+              gas: gasAmount,
+            });
             setLoading(false);
           } else {
             setLoading(false);
@@ -163,7 +164,6 @@ const Transaction = () => {
           text={"Deposit"}
           onClick={() => {
             handleSendButton();
-            
           }}
           style={{
             width: "100%",

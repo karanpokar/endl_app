@@ -10,12 +10,12 @@ import {
 const projectId = "2a7099b580ed18eee8cc6a30566cdecd";
 
 const metadata = {
-  name: "AppKit RN",
-  description: "AppKit RN Example",
+  name: "Endl App",
+  description: "Endl App",
   url: "https://reown.com/appkit",
   icons: ["https://avatars.githubusercontent.com/u/179229932"],
   redirect: {
-    native: "YOUR_APP_SCHEME://",
+    native: "endl://",
   },
 };
 
@@ -34,7 +34,7 @@ const polygonamoy = {
   name: "Polygon Amoy",
   currency: "POL",
   explorerUrl: "https://amoy.polygonscan.com",
-  rpcUrl: "https://rpc-amoy.polygon.technology",
+  rpcUrl: "https://polygon-amoy.g.alchemy.com/v2/Q19FeX_OTRO0E9xhDAr5rr5vMwCgakyt",
 };
 
 const polygon = {

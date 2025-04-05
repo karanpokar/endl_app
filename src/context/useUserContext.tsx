@@ -71,7 +71,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const logoutUser = async () => {
     console.log(token);
     const response = await apiService
-      .post("user/logout", {
+      .post("user/logout", {} ,{
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -81,7 +81,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         Alert.alert("Something went wrong");
         setLoading(false);
       });
-    console.log("Re", response?.data);
+    //console.log("Re", response?.data);
     if (response?.data) {
       setUser(null);
       setToken(null);

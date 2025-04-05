@@ -2,17 +2,26 @@ import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
 import {
   AppKitButton,
+  useAppKit,
   useAppKitAccount,
 } from "@reown/appkit-ethers5-react-native";
 import WalletPlaceHolder from "../components/theme/WalletPlaceHolder";
 import { useAsset } from "../context/useAssetContext";
 import TokenAssets from "../components/token/TokenAssets";
 import { useNavigation } from "@react-navigation/native";
+import TransactionHistory from "./TransactionHistory";
 
 const HomeScreen = () => {
-  const { address, isConnected } = useAppKitAccount();
+  const { address, isConnected,chainId } = useAppKitAccount();
   const { tokens }: any = useAsset();
   const navigation = useNavigation();
+  console.log('ChainId',chainId)
+  //const { switchChain } = useAppKit();
+
+  // Example usage
+  
+
+
   return (
     <View style={{ flex: 1 }}>
       {isConnected ? (
@@ -36,6 +45,7 @@ const HomeScreen = () => {
               padding: 12,
             }}
           >
+            {chainId!==80002 && <Text style={{color:'red',fontSize:16,marginVertical:12}}>Please switch to Polygon Amoy on your wallet</Text>}
             <AppKitButton balance="show" />
           </View>
 
@@ -90,7 +100,9 @@ const HomeScreen = () => {
           <View style={{height:1,marginVertical:16,width:'100%',backgroundColor:'rgba(0,0,0,0.1)'}}/>
           {tokens?.map((item:any,index:any)=>(
             <TokenAssets key={index} item={item}/>
-          ))} 
+          ))}
+          <View style={{height:1,marginVertical:16,width:'100%',backgroundColor:'rgba(0,0,0,0.1)'}}/>
+          <TransactionHistory/>
         </View>
       ) : (
         <WalletPlaceHolder />
